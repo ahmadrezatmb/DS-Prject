@@ -70,7 +70,7 @@ namespace ConsoleApp1
         {
             this.all_effects = new Effect[10000000]; // TODO: change the number later
         }
-        private int hash_by_name(string name)
+        private int hash_by_first_drug_name(string name)
         {
             int hash_value = 0;
             foreach (char letter in name)
@@ -83,7 +83,7 @@ namespace ConsoleApp1
         public void create(string name, Drug one, Drug two)
         {
             Effect new_effect = new Effect(name, one, two);
-            int hash_index = hash_by_name(name);
+            int hash_index = hash_by_name(one.name);
             while (all_effects[hash_index] != null) { hash_index++; }
             all_effects[hash_index] = new_effect;
         }
@@ -100,6 +100,18 @@ namespace ConsoleApp1
             int hash_index = hash_by_name(name);
             while (all_effects[hash_index].name != name) { hash_index++; }
             return all_effects[hash_index];
+        }
+
+        public List<Effect> get_effects_of_other_drugs(string drug_name)
+        {
+            List<Effect> output = new List<Effect>();
+            int hash_index = hash_by_first_drug_name(drug_name);
+            while (all_effects[hash_index].name == drug_name)
+            {
+                output.Add(all_effects[hash_index]);
+                hash_index++;
+            }
+            return output;
         }
     }
 
